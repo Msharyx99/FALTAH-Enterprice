@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#071427" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-title" content="FALTAH" />
-  <title>FALTAH Enterprise V4</title>
+  <title>FALTAH Enterprise V5</title>
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="apple-touch-icon" href="assets/icons/icon-192.png" />
   <link rel="icon" href="assets/icons/icon-192.png" />
@@ -21,13 +21,16 @@
   </div>
 
   <aside class="sidebar">
-    <div class="brand"><img src="assets/icons/icon-192.png"><div><b>FALTAH</b><span data-i18n="hub">Enterprise Hub</span></div></div>
+    <div class="brand"><img src="assets/icons/icon-192.png" alt="FALTAH"><div><b>FALTAH</b><span data-i18n="hub">Enterprise Hub</span></div></div>
     <nav>
       <button class="nav active" data-page="home">🏠 <span data-i18n="home">Home</span></button>
       <button class="nav" data-page="explorer">🧭 <span data-i18n="explorer">Equipment Explorer</span></button>
       <button class="nav" data-page="map">🗺️ <span data-i18n="map">Knowledge Map</span></button>
-      <button class="nav" data-page="library">🎥 <span data-i18n="library">Library</span></button>
+      <button class="nav" data-page="library">📚 <span data-i18n="library">Library</span></button>
       <button class="nav" data-page="academy">🎓 <span data-i18n="academy">Academy</span></button>
+      <button class="nav" data-page="progress">🏆 <span data-i18n="progress">Progress</span></button>
+      <button class="nav" data-page="challenge">⚡ <span data-i18n="challenge">Challenges</span></button>
+      <button class="nav" data-page="ai">🤖 <span data-i18n="ai">Ask FALTAH</span></button>
       <button class="nav" data-page="admin">🔐 <span data-i18n="admin">Admin</span></button>
     </nav>
     <div class="quote">Understand it. Apply it. Excel.</div>
@@ -35,6 +38,7 @@
 
   <main>
     <header class="topbar">
+      <button class="menuBtn">☰</button>
       <div><span class="overline" data-i18n="overline">Digital Technical Academy</span><h2 id="pageTitle">FALTAH Enterprise</h2></div>
       <div class="top-actions"><button id="langBtn">العربية</button><button id="themeBtn">🌙</button></div>
     </header>
@@ -42,21 +46,29 @@
     <section id="home" class="page active">
       <div class="hero card">
         <div>
-          <span class="pill">V4 • Equipment Explorer</span>
-          <h1 data-i18n="heroTitle">The company technical brain — organized by equipment.</h1>
-          <p data-i18n="heroText">Explore equipment, understand how it works, review failures, troubleshoot problems, and open related technical films from one professional platform.</p>
-          <div class="actions"><button class="primary" data-jump="explorer" data-i18n="openExplorer">Open Equipment Explorer</button><button data-jump="map" data-i18n="openMap">View Knowledge Map</button></div>
+          <span class="pill">V5 • Digital Technical Academy</span>
+          <h1 data-i18n="heroTitle">The company technical brain — now with academy, progress, challenges and AI-ready search.</h1>
+          <p data-i18n="heroText">Explore equipment, understand how it works, follow learning journeys, complete challenges, and ask FALTAH for guidance.</p>
+          <div class="actions"><button class="primary" data-jump="explorer" data-i18n="openExplorer">Open Equipment Explorer</button><button data-jump="ai" data-i18n="askFaltah">Ask FALTAH</button></div>
         </div>
         <div class="mascot"><img src="assets/images/faltah-character.jpeg" onerror="this.remove()"><div>👷‍♂️<b>FALTAH</b></div></div>
       </div>
       <div class="kpis">
         <div class="card kpi"><b id="kEquipment">0</b><span data-i18n="equipmentItems">Equipment Items</span></div>
         <div class="card kpi"><b id="kLessons">0</b><span data-i18n="lessons">Lessons</span></div>
-        <div class="card kpi"><b>6</b><span data-i18n="paths">Learning Paths</span></div>
+        <div class="card kpi"><b id="kComplete">0%</b><span data-i18n="completion">Completion</span></div>
         <div class="card kpi"><b>AI</b><span data-i18n="ready">Ready Architecture</span></div>
       </div>
-      <h3 data-i18n="todays">Today's Knowledge</h3>
+      <div class="section-head compact"><h3 data-i18n="todays">Today's Knowledge</h3><button data-jump="library" data-i18n="viewAll">View All</button></div>
       <div id="todayLesson" class="today card"></div>
+      <div class="section-head compact"><h3 data-i18n="quickModules">Quick Modules</h3></div>
+      <div class="module-grid">
+        <div class="card module" data-jump="explorer">🧭<b data-i18n="explorer">Equipment Explorer</b><span>Equipment-based knowledge</span></div>
+        <div class="card module" data-jump="academy">🎓<b data-i18n="academy">Academy</b><span>Structured journeys</span></div>
+        <div class="card module" data-jump="progress">🏆<b data-i18n="progress">Progress</b><span>Badges and certificates</span></div>
+        <div class="card module" data-jump="challenge">⚡<b data-i18n="challenge">Challenges</b><span>Weekly knowledge quiz</span></div>
+        <div class="card module" data-jump="ai">🤖<b data-i18n="ai">Ask FALTAH</b><span>AI-ready assistant</span></div>
+      </div>
       <h3 data-i18n="continueLearning">Continue Learning</h3>
       <div id="continueCards" class="grid"></div>
     </section>
@@ -76,27 +88,62 @@
       <h1 data-i18n="map">Knowledge Map</h1>
       <p data-i18n="mapText">A simplified process flow where every equipment is clickable.</p>
       <div id="processMap" class="process-map"></div>
+      <div class="card map-note"><h3>Systems Thinking</h3><p>FALTAH connects equipment to the full process flow so users understand not only each item, but how everything works together.</p></div>
     </section>
 
     <section id="library" class="page">
       <div class="section-head"><div><h1 data-i18n="library">Knowledge Library</h1><p data-i18n="libraryText">Videos, lessons, manuals, troubleshooting and case studies.</p></div><input id="librarySearch" placeholder="Search lessons..." /></div>
+      <div class="type-tabs" id="resourceTypeTabs"></div>
       <div id="libraryGrid" class="grid"></div>
     </section>
 
     <section id="academy" class="page">
-      <h1 data-i18n="academy">Learning Academy</h1>
+      <div class="section-head"><div><h1 data-i18n="academy">Learning Academy</h1><p data-i18n="academyText">Structured journeys for new operators, senior operators, troubleshooting, and technical leadership.</p></div></div>
       <div id="academyGrid" class="path-grid"></div>
+    </section>
+
+    <section id="progress" class="page">
+      <div class="section-head"><div><h1 data-i18n="progress">My Progress</h1><p data-i18n="progressText">Track completed lessons, badges, certificates, and learning hours.</p></div></div>
+      <div class="progress-hero card"><div><h2>FALTAH Learner Profile</h2><p>Current journey: Rotating Equipment Fundamentals</p><div class="progress"><i id="profileProgress" style="width:0%"></i></div></div><div class="score-ring"><b id="scorePercent">0%</b><span>Complete</span></div></div>
+      <div class="badge-grid" id="badgeGrid"></div>
+    </section>
+
+    <section id="challenge" class="page">
+      <div class="section-head"><div><h1 data-i18n="challenge">Knowledge Challenges</h1><p data-i18n="challengeText">Weekly micro challenges to build knowledge and engagement.</p></div></div>
+      <div class="challenge-card card">
+        <span class="pill">Pump Week</span>
+        <h2>What is the main risk of pump cavitation?</h2>
+        <div class="answer-grid">
+          <button data-answer="wrong">Higher fluid color</button>
+          <button data-answer="correct">Impeller damage and vibration</button>
+          <button data-answer="wrong">More instrument lighting</button>
+          <button data-answer="wrong">Lower ambient temperature</button>
+        </div>
+        <p id="challengeResult"></p>
+      </div>
+      <div id="leaderboard" class="leaderboard"></div>
+    </section>
+
+    <section id="ai" class="page">
+      <div class="section-head"><div><h1 data-i18n="ai">Ask FALTAH</h1><p data-i18n="aiText">Prototype assistant. In the future, this connects to Azure AI and approved knowledge documents.</p></div></div>
+      <div class="ai-panel card">
+        <div class="ai-avatar">👷‍♂️</div>
+        <div class="ai-chat" id="aiChat"><div class="bubble bot">Ask me about pumps, separators, valves, PSV, cavitation, or troubleshooting.</div></div>
+        <div class="ai-input"><input id="aiInput" placeholder="Example: Why does cavitation happen?"><button id="aiAsk" class="primary">Ask</button></div>
+      </div>
+      <div class="suggestions"><button data-question="Explain cavitation">Explain cavitation</button><button data-question="Difference between gate and globe valve">Gate vs Globe Valve</button><button data-question="Why PSV opens">Why PSV opens</button></div>
     </section>
 
     <section id="admin" class="page">
       <div id="login" class="card login"><h1 data-i18n="adminLogin">Admin Login</h1><p>Password: <b>faltah</b></p><input id="adminPass" type="password" placeholder="Password"><button id="adminLoginBtn" class="primary">Login</button></div>
       <div id="adminPanel" class="hidden">
         <div class="section-head"><h1 data-i18n="admin">Admin Portal</h1><button id="logout">Logout</button></div>
+        <div class="admin-metrics"><div class="card kpi"><b id="aResources">0</b><span>Resources</span></div><div class="card kpi"><b id="aVideos">0</b><span>Videos</span></div><div class="card kpi"><b id="aDocs">0</b><span>Documents</span></div></div>
         <form id="contentForm" class="card form">
           <input type="hidden" id="editId">
           <label>Title<input id="lessonTitle" required></label>
           <label>Equipment<select id="lessonEquipment"></select></label>
-          <label>Type<select id="lessonType"><option>Video</option><option>Manual</option><option>Troubleshooting</option><option>Case Study</option></select></label>
+          <label>Type<select id="lessonType"><option>Video</option><option>Manual</option><option>Troubleshooting</option><option>Case Study</option><option>Quiz</option><option>Document</option></select></label>
           <label>URL<input id="lessonUrl" placeholder="Stream / SharePoint link"></label>
           <label class="wide">Description<textarea id="lessonDesc"></textarea></label>
           <div class="wide"><button class="primary">Save Content</button><button type="button" id="clearForm">Clear</button></div>
@@ -109,8 +156,8 @@
   <nav class="bottom-nav">
     <button class="nav active" data-page="home">🏠<span>Home</span></button>
     <button class="nav" data-page="explorer">🧭<span>Explorer</span></button>
-    <button class="nav" data-page="map">🗺️<span>Map</span></button>
-    <button class="nav" data-page="library">🎥<span>Library</span></button>
+    <button class="nav" data-page="academy">🎓<span>Academy</span></button>
+    <button class="nav" data-page="ai">🤖<span>Ask</span></button>
   </nav>
 
   <dialog id="contentDialog"><button id="closeDialog" class="close">×</button><div id="dialogBody"></div></dialog>

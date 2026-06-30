@@ -1,20 +1,20 @@
-# FALTAH Enterprise V4 — Digital Technical Academy
+# FALTAH Enterprise V5 — Digital Technical Academy
 
-GitHub Pages-ready PWA update.
-
-## New in V4
-- Equipment Explorer
-- Equipment detail pages
-- Knowledge Map
-- Learning Academy paths
-- Knowledge Library
-- Admin content portal
-- Dark / Light mode
-- Arabic / English language support
-- Offline PWA support
+## New in V5
+- Expanded Digital Technical Academy dashboard
+- Equipment Explorer retained and enhanced
+- Knowledge Map retained
+- Knowledge Library with resource type filters
+- Learning Academy page
+- My Progress page with badges and completion tracking
+- Weekly Knowledge Challenge page
+- Ask FALTAH prototype assistant
+- Admin CMS improvements and metrics
+- Local browser storage for resources and progress
+- PWA offline support remains active
 
 ## Admin
 Password: `faltah`
 
 ## Deploy
-Copy all files into the root of your GitHub repository, replace old files, commit, and push.
+Extract this ZIP, copy all files to the root of the GitHub repository, replace existing files, commit, and push.
