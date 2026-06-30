@@ -1,6 +1,7 @@
 import { AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import SplashScreen from './components/SplashScreen';
+import LessonModal from './components/LessonModal';
 import { AppProvider } from './context/AppContext';
 import AppShell from './layouts/AppShell';
 import Admin from './pages/Admin';
@@ -17,9 +18,12 @@ function AppContent() {
   const [entered, setEntered] = useState(false);
   const [page, setPage] = useState<Page>('dashboard');
   return (
-    <AnimatePresence mode="wait">
-      {showSplash ? <SplashScreen key="splash" onFinish={() => setShowSplash(false)} /> : !entered ? <LoginPage key="login" onEnter={() => setEntered(true)} /> : <AppShell key="shell" page={page} setPage={setPage}>{page === 'dashboard' && <Dashboard />}{page === 'library' && <Library />}{page === 'learning' && <Learning />}{page === 'admin' && <Admin />}{page === 'settings' && <Settings />}</AppShell>}
-    </AnimatePresence>
+    <>
+      <AnimatePresence mode="wait">
+        {showSplash ? <SplashScreen key="splash" onFinish={() => setShowSplash(false)} /> : !entered ? <LoginPage key="login" onEnter={() => setEntered(true)} /> : <AppShell key="shell" page={page} setPage={setPage}>{page === 'dashboard' && <Dashboard />}{page === 'library' && <Library />}{page === 'learning' && <Learning />}{page === 'admin' && <Admin />}{page === 'settings' && <Settings />}</AppShell>}
+      </AnimatePresence>
+      <LessonModal />
+    </>
   );
 }
 

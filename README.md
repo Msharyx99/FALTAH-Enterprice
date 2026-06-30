@@ -1,33 +1,39 @@
-# FALTAH Enterprise Knowledge Hub — Sprint 1
+# FALTAH Enterprise — Sprint 2
 
-Professional React + TypeScript + Vite PWA foundation for **FALTAH**, the Technical Knowledge Ambassador.
+FALTAH Enterprise is a Progressive Web App for technical knowledge sharing.
 
-## Included in Sprint 1
+## Sprint 2 additions
 
-- React + TypeScript + Vite foundation
-- Installable PWA manifest
-- Service worker offline caching
-- Professional splash screen
-- Loading animation
-- Character-based FALTAH branding
-- Dark Navy + Gold corporate theme
-- Full-screen FALTAH login concept
-- Microsoft Learn-style dashboard
-- Arabic / English switching foundation
-- Dark / Light mode
-- Admin login prototype
-- Video upload page prototype
-- Search and filters prototype
-- Mobile responsive layout
+- Microsoft Learn–style dashboard upgrade
+- Professional FALTAH character hero area
+- Advanced lesson library
+- Search by title, Arabic title, description, provider, and tags
+- Filters by category and difficulty
+- Lesson details modal
+- Favorites saved in browser storage
+- Admin login
+- Admin dashboard metrics
+- Add/edit lesson form
+- Publish/draft/archive status workflow
+- Video link field for Microsoft Stream / SharePoint
+- Arabic/English content fields
+- Local persistence using browser localStorage
+- GitHub Pages friendly Vite configuration using `base: './'`
 
-## Run locally
+## Admin login
+
+Prototype password:
+
+```text
+faltah
+```
+
+## Local development
 
 ```bash
 npm install
 npm run dev
 ```
-
-Open the local URL shown by Vite.
 
 ## Build
 
@@ -35,16 +41,10 @@ Open the local URL shown by Vite.
 npm run build
 ```
 
-## Prototype admin password
+Upload the generated `dist` folder to GitHub Pages only if you are deploying a static build manually.
 
-```text
-faltah
-```
+For GitHub Pages from source, use GitHub Actions or run the build command locally.
 
-## GitHub Pages / Azure
+## Notes
 
-This app is ready to push to GitHub. For GitHub Pages or Azure Static Web Apps, build the project and deploy the `dist` folder.
-
-## Next sprint
-
-Sprint 2 should add real lesson details, video player, favorites, and local storage data management.
+This sprint stores lessons locally in the browser. In a future sprint, this will be connected to SharePoint / Microsoft Stream / Azure.
