@@ -1,20 +1,24 @@
-# FALTAH Enterprise V5 — Digital Technical Academy
+# FALTAH Enterprise V6 — AI Technical Mentor
 
-## New in V5
-- Expanded Digital Technical Academy dashboard
-- Equipment Explorer retained and enhanced
-- Knowledge Map retained
-- Knowledge Library with resource type filters
-- Learning Academy page
-- My Progress page with badges and completion tracking
-- Weekly Knowledge Challenge page
-- Ask FALTAH prototype assistant
-- Admin CMS improvements and metrics
-- Local browser storage for resources and progress
-- PWA offline support remains active
+GitHub Pages-ready PWA.
+
+## Included
+- AI Technical Mentor module: Ask FALTAH
+- Safe built-in AI mentor simulation
+- Equipment Explorer with interactive equipment pages
+- Component, failure, and troubleshooting panels
+- Knowledge Library with filters
+- Learning Academy paths
+- Admin login and lesson management
+- Arabic / English
+- Dark / light mode
+- Offline PWA support
 
 ## Admin
 Password: `faltah`
 
+## Important AI note
+This demo does not expose real API keys in the browser. To connect real AI, use Azure OpenAI/OpenAI through a secure backend such as Azure Functions or Azure Static Web Apps API.
+
 ## Deploy
-Extract this ZIP, copy all files to the root of the GitHub repository, replace existing files, commit, and push.
+Extract ZIP → copy all files to GitHub repository root → replace old files → commit → push.

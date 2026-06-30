@@ -3,10 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#071427" />
+  <meta name="theme-color" content="#061426" />
+  <meta name="description" content="FALTAH Enterprise V6 - AI Technical Mentor" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-title" content="FALTAH" />
-  <title>FALTAH Enterprise V5</title>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>FALTAH Enterprise V6</title>
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="apple-touch-icon" href="assets/icons/icon-192.png" />
   <link rel="icon" href="assets/icons/icon-192.png" />
@@ -14,153 +16,173 @@
 </head>
 <body>
   <div id="splash" class="splash">
-    <img src="assets/icons/icon-192.png" alt="FALTAH" />
-    <h1>FALTAH</h1>
-    <p>Digital Technical Academy</p>
-    <div class="loader"><span></span></div>
+    <div class="splash-ring"><img src="assets/icons/icon-192.png" alt="FALTAH"></div>
+    <h1>FALTAH V6</h1>
+    <p data-i18n="tagline">AI Technical Mentor</p>
+    <div class="loading"><span></span></div>
   </div>
 
-  <aside class="sidebar">
-    <div class="brand"><img src="assets/icons/icon-192.png" alt="FALTAH"><div><b>FALTAH</b><span data-i18n="hub">Enterprise Hub</span></div></div>
-    <nav>
-      <button class="nav active" data-page="home">🏠 <span data-i18n="home">Home</span></button>
-      <button class="nav" data-page="explorer">🧭 <span data-i18n="explorer">Equipment Explorer</span></button>
-      <button class="nav" data-page="map">🗺️ <span data-i18n="map">Knowledge Map</span></button>
-      <button class="nav" data-page="library">📚 <span data-i18n="library">Library</span></button>
-      <button class="nav" data-page="academy">🎓 <span data-i18n="academy">Academy</span></button>
-      <button class="nav" data-page="progress">🏆 <span data-i18n="progress">Progress</span></button>
-      <button class="nav" data-page="challenge">⚡ <span data-i18n="challenge">Challenges</span></button>
-      <button class="nav" data-page="ai">🤖 <span data-i18n="ai">Ask FALTAH</span></button>
-      <button class="nav" data-page="admin">🔐 <span data-i18n="admin">Admin</span></button>
-    </nav>
-    <div class="quote">Understand it. Apply it. Excel.</div>
-  </aside>
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <img src="assets/icons/icon-192.png" alt="FALTAH icon">
+        <div><strong>FALTAH</strong><span data-i18n="mentor">AI Technical Mentor</span></div>
+      </div>
+      <nav class="nav">
+        <button class="nav-link active" data-page="home">🏠 <b data-i18n="home">Home</b></button>
+        <button class="nav-link" data-page="equipment">⚙️ <b data-i18n="equipment">Equipment</b></button>
+        <button class="nav-link" data-page="library">🎥 <b data-i18n="library">Library</b></button>
+        <button class="nav-link" data-page="academy">🎓 <b data-i18n="academy">Academy</b></button>
+        <button class="nav-link" data-page="ai">🤖 <b data-i18n="askFaltah">Ask FALTAH</b></button>
+        <button class="nav-link" data-page="admin">🔐 <b data-i18n="admin">Admin</b></button>
+        <button class="nav-link" data-page="settings">⚙️ <b data-i18n="settings">Settings</b></button>
+      </nav>
+      <div class="mentor-card">
+        <span>👷‍♂️</span>
+        <b data-i18n="signature">Understand it. Apply it. Excel.</b>
+      </div>
+    </aside>
 
-  <main>
-    <header class="topbar">
-      <button class="menuBtn">☰</button>
-      <div><span class="overline" data-i18n="overline">Digital Technical Academy</span><h2 id="pageTitle">FALTAH Enterprise</h2></div>
-      <div class="top-actions"><button id="langBtn">العربية</button><button id="themeBtn">🌙</button></div>
-    </header>
-
-    <section id="home" class="page active">
-      <div class="hero card">
+    <main class="main">
+      <header class="topbar">
+        <button class="icon-btn mobile-only" id="menuBtn">☰</button>
         <div>
-          <span class="pill">V5 • Digital Technical Academy</span>
-          <h1 data-i18n="heroTitle">The company technical brain — now with academy, progress, challenges and AI-ready search.</h1>
-          <p data-i18n="heroText">Explore equipment, understand how it works, follow learning journeys, complete challenges, and ask FALTAH for guidance.</p>
-          <div class="actions"><button class="primary" data-jump="explorer" data-i18n="openExplorer">Open Equipment Explorer</button><button data-jump="ai" data-i18n="askFaltah">Ask FALTAH</button></div>
+          <small class="eyebrow" data-i18n="v6">Version 6 • AI Technical Mentor</small>
+          <h2 id="pageTitle">FALTAH Enterprise</h2>
         </div>
-        <div class="mascot"><img src="assets/images/faltah-character.jpeg" onerror="this.remove()"><div>👷‍♂️<b>FALTAH</b></div></div>
-      </div>
-      <div class="kpis">
-        <div class="card kpi"><b id="kEquipment">0</b><span data-i18n="equipmentItems">Equipment Items</span></div>
-        <div class="card kpi"><b id="kLessons">0</b><span data-i18n="lessons">Lessons</span></div>
-        <div class="card kpi"><b id="kComplete">0%</b><span data-i18n="completion">Completion</span></div>
-        <div class="card kpi"><b>AI</b><span data-i18n="ready">Ready Architecture</span></div>
-      </div>
-      <div class="section-head compact"><h3 data-i18n="todays">Today's Knowledge</h3><button data-jump="library" data-i18n="viewAll">View All</button></div>
-      <div id="todayLesson" class="today card"></div>
-      <div class="section-head compact"><h3 data-i18n="quickModules">Quick Modules</h3></div>
-      <div class="module-grid">
-        <div class="card module" data-jump="explorer">🧭<b data-i18n="explorer">Equipment Explorer</b><span>Equipment-based knowledge</span></div>
-        <div class="card module" data-jump="academy">🎓<b data-i18n="academy">Academy</b><span>Structured journeys</span></div>
-        <div class="card module" data-jump="progress">🏆<b data-i18n="progress">Progress</b><span>Badges and certificates</span></div>
-        <div class="card module" data-jump="challenge">⚡<b data-i18n="challenge">Challenges</b><span>Weekly knowledge quiz</span></div>
-        <div class="card module" data-jump="ai">🤖<b data-i18n="ai">Ask FALTAH</b><span>AI-ready assistant</span></div>
-      </div>
-      <h3 data-i18n="continueLearning">Continue Learning</h3>
-      <div id="continueCards" class="grid"></div>
-    </section>
-
-    <section id="explorer" class="page">
-      <div class="section-head"><div><h1 data-i18n="explorer">Equipment Explorer</h1><p data-i18n="explorerText">Select a discipline, then open equipment details, components, failures, troubleshooting and knowledge films.</p></div><input id="equipmentSearch" placeholder="Search equipment..." /></div>
-      <div id="disciplineTabs" class="tabs"></div>
-      <div id="equipmentGrid" class="equipment-grid"></div>
-    </section>
-
-    <section id="equipmentDetail" class="page">
-      <button id="backExplorer">← Back</button>
-      <div id="equipmentDetailBox"></div>
-    </section>
-
-    <section id="map" class="page">
-      <h1 data-i18n="map">Knowledge Map</h1>
-      <p data-i18n="mapText">A simplified process flow where every equipment is clickable.</p>
-      <div id="processMap" class="process-map"></div>
-      <div class="card map-note"><h3>Systems Thinking</h3><p>FALTAH connects equipment to the full process flow so users understand not only each item, but how everything works together.</p></div>
-    </section>
-
-    <section id="library" class="page">
-      <div class="section-head"><div><h1 data-i18n="library">Knowledge Library</h1><p data-i18n="libraryText">Videos, lessons, manuals, troubleshooting and case studies.</p></div><input id="librarySearch" placeholder="Search lessons..." /></div>
-      <div class="type-tabs" id="resourceTypeTabs"></div>
-      <div id="libraryGrid" class="grid"></div>
-    </section>
-
-    <section id="academy" class="page">
-      <div class="section-head"><div><h1 data-i18n="academy">Learning Academy</h1><p data-i18n="academyText">Structured journeys for new operators, senior operators, troubleshooting, and technical leadership.</p></div></div>
-      <div id="academyGrid" class="path-grid"></div>
-    </section>
-
-    <section id="progress" class="page">
-      <div class="section-head"><div><h1 data-i18n="progress">My Progress</h1><p data-i18n="progressText">Track completed lessons, badges, certificates, and learning hours.</p></div></div>
-      <div class="progress-hero card"><div><h2>FALTAH Learner Profile</h2><p>Current journey: Rotating Equipment Fundamentals</p><div class="progress"><i id="profileProgress" style="width:0%"></i></div></div><div class="score-ring"><b id="scorePercent">0%</b><span>Complete</span></div></div>
-      <div class="badge-grid" id="badgeGrid"></div>
-    </section>
-
-    <section id="challenge" class="page">
-      <div class="section-head"><div><h1 data-i18n="challenge">Knowledge Challenges</h1><p data-i18n="challengeText">Weekly micro challenges to build knowledge and engagement.</p></div></div>
-      <div class="challenge-card card">
-        <span class="pill">Pump Week</span>
-        <h2>What is the main risk of pump cavitation?</h2>
-        <div class="answer-grid">
-          <button data-answer="wrong">Higher fluid color</button>
-          <button data-answer="correct">Impeller damage and vibration</button>
-          <button data-answer="wrong">More instrument lighting</button>
-          <button data-answer="wrong">Lower ambient temperature</button>
+        <div class="top-actions">
+          <button class="chip" id="langBtn">العربية</button>
+          <button class="chip" id="themeBtn">🌙</button>
+          <button class="chip ai-chip" data-page-jump="ai">🤖 AI</button>
         </div>
-        <p id="challengeResult"></p>
-      </div>
-      <div id="leaderboard" class="leaderboard"></div>
-    </section>
+      </header>
 
-    <section id="ai" class="page">
-      <div class="section-head"><div><h1 data-i18n="ai">Ask FALTAH</h1><p data-i18n="aiText">Prototype assistant. In the future, this connects to Azure AI and approved knowledge documents.</p></div></div>
-      <div class="ai-panel card">
-        <div class="ai-avatar">👷‍♂️</div>
-        <div class="ai-chat" id="aiChat"><div class="bubble bot">Ask me about pumps, separators, valves, PSV, cavitation, or troubleshooting.</div></div>
-        <div class="ai-input"><input id="aiInput" placeholder="Example: Why does cavitation happen?"><button id="aiAsk" class="primary">Ask</button></div>
-      </div>
-      <div class="suggestions"><button data-question="Explain cavitation">Explain cavitation</button><button data-question="Difference between gate and globe valve">Gate vs Globe Valve</button><button data-question="Why PSV opens">Why PSV opens</button></div>
-    </section>
+      <section class="page active" id="home">
+        <div class="hero panel">
+          <div class="hero-copy">
+            <span class="badge" data-i18n="todayMission">Today's Mission</span>
+            <h1 data-i18n="heroTitle">Ask. Learn. Explore. FALTAH explains the plant like a mentor.</h1>
+            <p data-i18n="heroText">An AI-powered technical academy for equipment knowledge, troubleshooting, learning paths, and field-ready explanations.</p>
+            <div class="hero-actions">
+              <button class="primary" data-page-jump="ai" data-i18n="askNow">Ask FALTAH Now</button>
+              <button class="secondary" data-page-jump="equipment" data-i18n="exploreEquipment">Explore Equipment</button>
+            </div>
+          </div>
+          <div class="mentor-visual">
+            <img src="assets/images/faltah-character.jpeg" alt="FALTAH" onerror="this.style.display='none'">
+            <div class="mentor-fallback">👷‍♂️<b>FALTAH</b></div>
+          </div>
+        </div>
 
-    <section id="admin" class="page">
-      <div id="login" class="card login"><h1 data-i18n="adminLogin">Admin Login</h1><p>Password: <b>faltah</b></p><input id="adminPass" type="password" placeholder="Password"><button id="adminLoginBtn" class="primary">Login</button></div>
-      <div id="adminPanel" class="hidden">
-        <div class="section-head"><h1 data-i18n="admin">Admin Portal</h1><button id="logout">Logout</button></div>
-        <div class="admin-metrics"><div class="card kpi"><b id="aResources">0</b><span>Resources</span></div><div class="card kpi"><b id="aVideos">0</b><span>Videos</span></div><div class="card kpi"><b id="aDocs">0</b><span>Documents</span></div></div>
-        <form id="contentForm" class="card form">
-          <input type="hidden" id="editId">
-          <label>Title<input id="lessonTitle" required></label>
-          <label>Equipment<select id="lessonEquipment"></select></label>
-          <label>Type<select id="lessonType"><option>Video</option><option>Manual</option><option>Troubleshooting</option><option>Case Study</option><option>Quiz</option><option>Document</option></select></label>
-          <label>URL<input id="lessonUrl" placeholder="Stream / SharePoint link"></label>
-          <label class="wide">Description<textarea id="lessonDesc"></textarea></label>
-          <div class="wide"><button class="primary">Save Content</button><button type="button" id="clearForm">Clear</button></div>
-        </form>
-        <div id="adminContentList" class="admin-list"></div>
-      </div>
-    </section>
-  </main>
+        <div class="mission-grid">
+          <div class="panel mission-card"><small data-i18n="sixtySec">60-Second Learning</small><h3 id="dailyLessonTitle">Centrifugal Pump Fundamentals</h3><p data-i18n="sixtySecText">Start with one simple explanation, then go deeper.</p><button class="primary" data-page-jump="library" data-i18n="watch">Watch</button></div>
+          <div class="panel mission-card"><small data-i18n="continueLearning">Continue Learning</small><h3>Rotating Equipment Path</h3><div class="progress"><span style="width:42%"></span></div><p>42% complete</p></div>
+          <div class="panel mission-card"><small data-i18n="quickAsk">Quick Ask</small><h3 data-i18n="askExample">Why is discharge pressure low?</h3><button class="secondary" data-quick-question="Why is pump discharge pressure low?" data-page-jump="ai" data-i18n="askFaltah">Ask FALTAH</button></div>
+        </div>
+
+        <div class="section-title"><h3 data-i18n="equipmentExplorer">Equipment Explorer</h3><button class="text-btn" data-page-jump="equipment" data-i18n="viewAll">View all</button></div>
+        <div class="equipment-strip" id="homeEquipment"></div>
+
+        <div class="section-title"><h3 data-i18n="featured">Featured Technical Films</h3></div>
+        <div class="lesson-row" id="featuredLessons"></div>
+      </section>
+
+      <section class="page" id="equipment">
+        <div class="page-head panel">
+          <div><h1 data-i18n="equipmentExplorer">Equipment Explorer</h1><p data-i18n="equipmentText">Select equipment to open overview, components, failures, troubleshooting, documents, lessons, and AI guidance.</p></div>
+          <input id="equipmentSearch" placeholder="Search equipment">
+        </div>
+        <div class="equipment-grid" id="equipmentGrid"></div>
+        <div id="equipmentDetail" class="equipment-detail hidden"></div>
+      </section>
+
+      <section class="page" id="library">
+        <div class="page-head panel">
+          <div><h1 data-i18n="libraryTitle">Knowledge Library</h1><p data-i18n="libraryText">Search videos, equipment topics, troubleshooting notes, and learning items.</p></div>
+          <input id="searchInput" placeholder="Search pump, valve, separator...">
+        </div>
+        <div class="filters" id="filters"></div>
+        <div class="lesson-grid" id="lessonGrid"></div>
+      </section>
+
+      <section class="page" id="academy">
+        <div class="page-head panel"><div><h1 data-i18n="academy">Learning Academy</h1><p data-i18n="academyText">Structured journeys from fundamentals to advanced troubleshooting.</p></div></div>
+        <div class="path-grid" id="pathGrid"></div>
+      </section>
+
+      <section class="page" id="ai">
+        <div class="ai-layout">
+          <div class="panel ai-panel">
+            <div class="ai-head"><span>🤖</span><div><h1 data-i18n="askFaltah">Ask FALTAH</h1><p data-i18n="aiSub">Ask technical questions and get practical field-style answers.</p></div></div>
+            <div id="chatBox" class="chat-box"></div>
+            <div class="prompt-chips">
+              <button data-question="Explain cavitation in simple words">Cavitation</button>
+              <button data-question="Why is pump discharge pressure low?">Low discharge pressure</button>
+              <button data-question="Difference between gate valve and globe valve">Gate vs Globe</button>
+              <button data-question="Explain PSV operation">PSV operation</button>
+            </div>
+            <div class="chat-input"><input id="aiInput" placeholder="Ask FALTAH anything technical..."><button id="aiSend" class="primary" data-i18n="send">Send</button></div>
+          </div>
+          <div class="panel ai-config">
+            <h3 data-i18n="aiMode">AI Mode</h3>
+            <p data-i18n="aiModeText">This version includes a safe built-in AI mentor simulation. For real AI, connect Azure OpenAI or OpenAI API using a secure backend, not directly from the browser.</p>
+            <div class="ai-note"><b>Enterprise note</b><p>Never put API keys inside GitHub Pages. Use Azure Functions, Azure Static Web Apps API, or company backend.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page" id="admin">
+        <div id="loginPanel" class="auth panel">
+          <h1 data-i18n="adminLogin">Admin Login</h1>
+          <p data-i18n="adminText">Enter admin password to manage lessons and equipment data.</p>
+          <input id="passwordInput" type="password" placeholder="Password">
+          <button id="loginBtn" class="primary" data-i18n="login">Login</button>
+          <small>Demo password: <b>faltah</b></small>
+        </div>
+        <div id="adminPanel" class="admin-panel hidden">
+          <div class="section-title"><h1 data-i18n="adminDashboard">Admin Dashboard</h1><button id="logoutBtn" class="secondary" data-i18n="logout">Logout</button></div>
+          <form id="lessonForm" class="panel form-grid">
+            <input type="hidden" id="lessonId">
+            <label><span data-i18n="titleEn">Title English</span><input id="titleEn" required></label>
+            <label><span data-i18n="titleAr">Title Arabic</span><input id="titleAr" dir="rtl"></label>
+            <label><span data-i18n="category">Category</span><select id="categorySelect"></select></label>
+            <label><span data-i18n="equipment">Equipment</span><select id="equipmentSelect"></select></label>
+            <label><span data-i18n="difficulty">Difficulty</span><select id="difficultySelect"><option>Beginner</option><option>Intermediate</option><option>Advanced</option></select></label>
+            <label><span data-i18n="duration">Duration</span><input id="duration" placeholder="04:00"></label>
+            <label><span data-i18n="provider">Knowledge Provider</span><input id="provider"></label>
+            <label class="wide"><span data-i18n="videoUrl">Video URL</span><input id="videoUrl" placeholder="Microsoft Stream / SharePoint / YouTube demo link"></label>
+            <label class="wide"><span data-i18n="descriptionEn">Description English</span><textarea id="descEn"></textarea></label>
+            <label class="wide"><span data-i18n="descriptionAr">Description Arabic</span><textarea id="descAr" dir="rtl"></textarea></label>
+            <label class="wide"><span data-i18n="learningPoints">Learning Points</span><textarea id="points" placeholder="One point per line"></textarea></label>
+            <div class="wide form-actions"><button class="primary" type="submit" data-i18n="saveLesson">Save Lesson</button><button type="button" class="secondary" id="clearForm" data-i18n="clear">Clear</button></div>
+          </form>
+          <div class="admin-list" id="adminList"></div>
+        </div>
+      </section>
+
+      <section class="page" id="settings">
+        <h1 data-i18n="settings">Settings</h1>
+        <div class="settings-grid">
+          <div class="panel setting-card"><h3 data-i18n="language">Language</h3><p data-i18n="languageText">English and Arabic are active. Structure ready for five languages.</p><button id="settingsLang" class="primary">العربية / English</button></div>
+          <div class="panel setting-card"><h3 data-i18n="appearance">Appearance</h3><p data-i18n="appearanceText">Switch between dark and light mode.</p><button id="settingsTheme" class="primary">Toggle Theme</button></div>
+          <div class="panel setting-card"><h3 data-i18n="installApp">Install App</h3><p data-i18n="installText">On iPhone: Safari → Share → Add to Home Screen.</p></div>
+        </div>
+      </section>
+    </main>
+  </div>
 
   <nav class="bottom-nav">
-    <button class="nav active" data-page="home">🏠<span>Home</span></button>
-    <button class="nav" data-page="explorer">🧭<span>Explorer</span></button>
-    <button class="nav" data-page="academy">🎓<span>Academy</span></button>
-    <button class="nav" data-page="ai">🤖<span>Ask</span></button>
+    <button class="nav-link active" data-page="home">🏠<span data-i18n="home">Home</span></button>
+    <button class="nav-link" data-page="equipment">⚙️<span data-i18n="equipment">Equipment</span></button>
+    <button class="nav-link" data-page="ai">🤖<span data-i18n="askFaltah">AI</span></button>
+    <button class="nav-link" data-page="library">🎥<span data-i18n="library">Library</span></button>
   </nav>
 
-  <dialog id="contentDialog"><button id="closeDialog" class="close">×</button><div id="dialogBody"></div></dialog>
+  <dialog id="lessonDialog" class="lesson-dialog">
+    <button class="close" id="closeDialog">×</button>
+    <div id="dialogContent"></div>
+  </dialog>
+
   <script src="app.js"></script>
 </body>
 </html>
