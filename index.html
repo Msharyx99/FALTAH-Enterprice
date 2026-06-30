@@ -1,19 +1,154 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="theme-color" content="#071524" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="FALTAH" />
-    <link rel="manifest" href="./manifest.json" />
-    <link rel="apple-touch-icon" href="./icons/icon-192.png" />
-    <title>FALTAH Enterprise</title>
-    <script type="module" crossorigin src="./assets/index-jPohbmTn.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-BQqgOQZs.css">
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#071427" />
+  <meta name="description" content="FALTAH Enterprise - Technical Knowledge Hub" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="FALTAH" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>FALTAH Enterprise</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.png" />
+  <link rel="icon" href="assets/icons/icon-192.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="splash" class="splash" aria-label="Loading FALTAH">
+    <div class="splash-orb"><img src="assets/icons/icon-192.png" alt="FALTAH"></div>
+    <h1>FALTAH</h1>
+    <p data-i18n="tagline">Knowledge That Powers Reliability</p>
+    <div class="loader"><span></span></div>
+  </div>
+
+  <div class="app" id="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <img src="assets/icons/icon-192.png" alt="FALTAH icon">
+        <div><strong>FALTAH</strong><span data-i18n="knowledgeHub">Knowledge Hub</span></div>
+      </div>
+      <nav class="nav">
+        <button class="nav-link active" data-page="home"><span>🏠</span><b data-i18n="home">Home</b></button>
+        <button class="nav-link" data-page="library"><span>🎥</span><b data-i18n="library">Library</b></button>
+        <button class="nav-link" data-page="learning"><span>🎓</span><b data-i18n="learning">Learning</b></button>
+        <button class="nav-link" data-page="admin"><span>🔐</span><b data-i18n="admin">Admin</b></button>
+        <button class="nav-link" data-page="settings"><span>⚙️</span><b data-i18n="settings">Settings</b></button>
+      </nav>
+      <div class="side-card"><small data-i18n="signature">Understand it. Apply it. Excel.</small></div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button id="menuBtn" class="icon-btn mobile-only">☰</button>
+        <div>
+          <span class="eyebrow" data-i18n="enterprise">Enterprise Technical Academy</span>
+          <h2 id="pageTitle">FALTAH Enterprise</h2>
+        </div>
+        <div class="top-actions">
+          <button id="langBtn" class="chip">العربية</button>
+          <button id="themeBtn" class="chip">🌙</button>
+        </div>
+      </header>
+
+      <section class="page active" id="home">
+        <div class="hero panel transition-card">
+          <div class="hero-copy">
+            <span class="badge" data-i18n="sprint3">Sprint 3 • Enterprise UI</span>
+            <h1 data-i18n="heroTitle">Technical knowledge, simplified into powerful short films.</h1>
+            <p data-i18n="heroText">A professional learning hub to preserve experience, explain equipment, and develop future operators.</p>
+            <div class="hero-actions">
+              <button class="primary" data-page-jump="library" data-i18n="exploreLibrary">Explore Library</button>
+              <button class="secondary" data-page-jump="admin" data-i18n="uploadLesson">Upload Lesson</button>
+            </div>
+          </div>
+          <div class="character-card">
+            <img src="assets/images/faltah-salamah.jpeg" alt="FALTAH character" onerror="this.style.display='none'">
+            <div class="character-fallback">👷‍♂️<strong>FALTAH</strong></div>
+          </div>
+        </div>
+
+        <div class="section-title"><h3 data-i18n="featured">Featured Lessons</h3><button class="text-btn" data-page-jump="library" data-i18n="viewAll">View all</button></div>
+        <div class="lesson-row" id="featuredLessons"></div>
+
+        <div class="section-title"><h3 data-i18n="categories">Categories</h3></div>
+        <div class="category-grid" id="categoryGrid"></div>
+
+        <div class="section-title"><h3 data-i18n="dashboard">Learning Dashboard</h3></div>
+        <div class="metric-grid">
+          <div class="metric panel"><b id="mLessons">0</b><span data-i18n="totalLessons">Total Lessons</span></div>
+          <div class="metric panel"><b id="mFav">0</b><span data-i18n="favorites">Favorites</span></div>
+          <div class="metric panel"><b>08</b><span data-i18n="categories">Categories</span></div>
+          <div class="metric panel"><b>95%</b><span data-i18n="offlineReady">Offline Ready</span></div>
+        </div>
+      </section>
+
+      <section class="page" id="library">
+        <div class="library-head panel">
+          <div><h1 data-i18n="libraryTitle">Technical Films Library</h1><p data-i18n="libraryText">Search, filter, and open FALTAH short lessons.</p></div>
+          <label class="search"><span>🔍</span><input id="searchInput" placeholder="Search equipment or topic"></label>
+        </div>
+        <div class="filters" id="filters"></div>
+        <div class="lesson-grid" id="lessonGrid"></div>
+      </section>
+
+      <section class="page" id="learning">
+        <h1 data-i18n="learningPaths">Learning Paths</h1>
+        <div class="path-grid" id="pathGrid"></div>
+      </section>
+
+      <section class="page" id="admin">
+        <div id="loginPanel" class="auth panel">
+          <h1 data-i18n="adminLogin">Admin Login</h1>
+          <p data-i18n="adminText">Enter admin password to upload and manage lessons.</p>
+          <input id="passwordInput" type="password" placeholder="Password">
+          <button id="loginBtn" class="primary" data-i18n="login">Login</button>
+          <small>Demo password: <b>faltah</b></small>
+        </div>
+
+        <div id="adminPanel" class="admin-panel hidden">
+          <div class="section-title"><h1 data-i18n="adminDashboard">Admin Dashboard</h1><button id="logoutBtn" class="secondary" data-i18n="logout">Logout</button></div>
+          <form id="lessonForm" class="panel form-grid">
+            <input type="hidden" id="lessonId">
+            <label><span data-i18n="titleEn">Title English</span><input id="titleEn" required></label>
+            <label><span data-i18n="titleAr">Title Arabic</span><input id="titleAr" dir="rtl"></label>
+            <label><span data-i18n="category">Category</span><select id="categorySelect"></select></label>
+            <label><span data-i18n="difficulty">Difficulty</span><select id="difficultySelect"><option>Beginner</option><option>Intermediate</option><option>Advanced</option></select></label>
+            <label><span data-i18n="duration">Duration</span><input id="duration" placeholder="04:00"></label>
+            <label><span data-i18n="provider">Knowledge Provider</span><input id="provider"></label>
+            <label class="wide"><span data-i18n="videoUrl">Video URL</span><input id="videoUrl" placeholder="Microsoft Stream / SharePoint / YouTube demo link"></label>
+            <label class="wide"><span data-i18n="descriptionEn">Description English</span><textarea id="descEn"></textarea></label>
+            <label class="wide"><span data-i18n="descriptionAr">Description Arabic</span><textarea id="descAr" dir="rtl"></textarea></label>
+            <label class="wide"><span data-i18n="learningPoints">Learning Points</span><textarea id="points" placeholder="One point per line"></textarea></label>
+            <div class="wide form-actions"><button class="primary" type="submit" data-i18n="saveLesson">Save Lesson</button><button type="button" class="secondary" id="clearForm" data-i18n="clear">Clear</button></div>
+          </form>
+          <div class="admin-list" id="adminList"></div>
+        </div>
+      </section>
+
+      <section class="page" id="settings">
+        <h1 data-i18n="settings">Settings</h1>
+        <div class="settings-grid">
+          <div class="panel setting-card"><h3 data-i18n="language">Language</h3><p data-i18n="languageText">English and Arabic are active. The structure is ready for five languages.</p><button id="settingsLang" class="primary">العربية / English</button></div>
+          <div class="panel setting-card"><h3 data-i18n="appearance">Appearance</h3><p data-i18n="appearanceText">Switch between dark and light mode.</p><button id="settingsTheme" class="primary">Toggle Theme</button></div>
+          <div class="panel setting-card"><h3 data-i18n="installApp">Install App</h3><p data-i18n="installText">On iPhone: Safari → Share → Add to Home Screen.</p></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <nav class="bottom-nav">
+    <button class="nav-link active" data-page="home">🏠<span data-i18n="home">Home</span></button>
+    <button class="nav-link" data-page="library">🎥<span data-i18n="library">Library</span></button>
+    <button class="nav-link" data-page="learning">🎓<span data-i18n="learning">Learning</span></button>
+    <button class="nav-link" data-page="admin">🔐<span data-i18n="admin">Admin</span></button>
+  </nav>
+
+  <dialog id="lessonDialog" class="lesson-dialog">
+    <button class="close" id="closeDialog">×</button>
+    <div id="dialogContent"></div>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
 </html>
