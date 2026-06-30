@@ -1,21 +1,20 @@
-# FALTAH Enterprise — Sprint 3
+# FALTAH Enterprise V4 — Digital Technical Academy
 
-GitHub Pages-ready PWA.
+GitHub Pages-ready PWA update.
 
-## Included
-- Professional splash/loading animation
-- Dark/Light mode
-- Arabic/English language switch
-- Microsoft Learn-style dashboard
-- Video library with search and filters
-- Favorites
-- Admin login
-- Add/edit/delete lessons
-- Offline support
-- PWA manifest and service worker
+## New in V4
+- Equipment Explorer
+- Equipment detail pages
+- Knowledge Map
+- Learning Academy paths
+- Knowledge Library
+- Admin content portal
+- Dark / Light mode
+- Arabic / English language support
+- Offline PWA support
 
 ## Admin
 Password: `faltah`
 
 ## Deploy
-Copy all files in this folder to the root of your GitHub repository, replace old files, commit, and push.
+Copy all files into the root of your GitHub repository, replace old files, commit, and push.
