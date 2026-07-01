@@ -15,6 +15,10 @@ function absUrl(repo, path=''){ if(!path) return ''; if(/^https?:\/\//.test(path
 function isYouTube(url=''){return /youtu\.be|youtube\.com/.test(url)}
 function youtubeEmbed(url){let id=''; try{const u=new URL(url); if(u.hostname.includes('youtu.be')) id=u.pathname.slice(1); else id=u.searchParams.get('v') || u.pathname.split('/embed/')[1] || '';}catch{} return id?`https://www.youtube.com/embed/${id}`:url;}
 async function loadLessons(){
+  const localCms = localStorage.getItem('faltah_cms_lessons_preview');
+  if(localCms){
+    try{ lessons = JSON.parse(localCms); renderAll(); return; }catch(e){}
+  }
   try{const dataUrl=absUrl(CONFIG.knowledgeRepo, CONFIG.knowledgeDataFile || 'data/lessons.json') + '?v=' + Date.now(); const res=await fetch(dataUrl); if(!res.ok) throw new Error('No knowledge data'); lessons = await res.json();}
   catch(e){lessons = fallbackLessons;}
   renderAll();
@@ -25,13 +29,15 @@ function applyBranding(){
   if(char){ $('#heroCharacter').src=char; }
 }
 function renderStats(){const eq=[...new Set(lessons.map(l=>l.equipment).filter(Boolean))]; const docs=lessons.reduce((a,l)=>a+(l.documents?.length||0),0); $('#stats').innerHTML=[['Equipment',eq.length],['Lessons',lessons.length],['Videos',lessons.filter(l=>l.videoUrl).length],['Documents',docs]].map(x=>`<div class="stat card"><b>${x[1]}</b><span>${x[0]}</span></div>`).join('');}
-function lessonCard(l){return `<article class="lesson card" data-lesson="${l.id}"><div class="thumb">${icon(l.category)}</div><span class="meta">${l.category} • ${l.duration||''}</span><h4>${esc(l.title)}</h4><p>${esc(l.summary||'')}</p><small>${esc(l.equipment||'')}</small></article>`}
+function lessonCard(l){return `<article class="lesson card" data-lesson="${l.id}"><div class="thumb">${equipmentIcon(l.equipment,l.category)}</div><span class="meta">${l.category} • ${l.duration||''}</span><h4>${esc(l.title)}</h4><p>${esc(l.summary||'')}</p><small>${esc(l.equipment||'')}</small></article>`}
 function renderFeatured(){ $('#featuredGrid').innerHTML = lessons.filter(l=>l.featured).slice(0,4).map(lessonCard).join('') || lessons.slice(0,4).map(lessonCard).join(''); }
-function renderEquipment(){ const q=($('#equipmentSearch')?.value||'').toLowerCase(); const eqMap={}; lessons.forEach(l=>{ if(!l.equipment) return; if(!eqMap[l.equipment]) eqMap[l.equipment]={name:l.equipment,category:l.category,count:0,summary:l.summary}; eqMap[l.equipment].count++;}); let arr=Object.values(eqMap).filter(e=>e.name.toLowerCase().includes(q) || e.category.toLowerCase().includes(q)); $('#equipmentGrid').innerHTML=arr.map(e=>`<article class="equipment card" data-equipment="${esc(e.name)}"><div class="equip-icon">${icon(e.category)}</div><span class="meta">${esc(e.category)} • ${e.count} lessons</span><h4>${esc(e.name)}</h4><p>${esc(e.summary||'Open equipment details and related lessons.')}</p></article>`).join('');}
+function renderEquipment(){ const q=($('#equipmentSearch')?.value||'').toLowerCase(); const eqMap={}; lessons.forEach(l=>{ if(!l.equipment) return; if(!eqMap[l.equipment]) eqMap[l.equipment]={name:l.equipment,category:l.category,count:0,summary:l.summary}; eqMap[l.equipment].count++;}); let arr=Object.values(eqMap).filter(e=>e.name.toLowerCase().includes(q) || e.category.toLowerCase().includes(q)); $('#equipmentGrid').innerHTML=arr.map(e=>`<article class="equipment card" data-equipment="${esc(e.name)}"><div class="equip-icon">${equipmentIcon(e.name,e.category)}</div><span class="meta">${esc(e.category)} • ${e.count} lessons</span><h4>${esc(e.name)}</h4><p>${esc(e.summary||'Open equipment details and related lessons.')}</p></article>`).join('');}
 function renderLibrary(){ const cats=['All',...new Set(lessons.map(l=>l.category))]; $('#filters').innerHTML=cats.map(c=>`<button class="filter ${c===currentFilter?'active':''}" data-filter="${esc(c)}">${esc(c)}</button>`).join(''); const q=($('#librarySearch')?.value||searchText).toLowerCase(); let arr=lessons.filter(l=>(currentFilter==='All'||l.category===currentFilter) && [l.title,l.equipment,l.category,l.summary,l.provider,(l.keywords||[]).join(' ')].join(' ').toLowerCase().includes(q)); $('#libraryGrid').innerHTML=arr.map(lessonCard).join('') || '<div class="card" style="padding:20px">No results found.</div>';}
 function renderPaths(){ const paths=[['Operator Fundamentals',35],['Rotating Equipment',20],['Valves & Instrumentation',15],['Process Systems',28]]; $('#paths').innerHTML=paths.map(p=>`<div class="path card"><h3>${p[0]}</h3><p>Structured lessons from the knowledge repository.</p><div class="progress"><span style="width:${p[1]}%"></span></div></div>`).join('');}
 function renderHealth(){ const missingVideo=lessons.filter(l=>!l.videoUrl).length; const missingDocs=lessons.filter(l=>!l.documents||!l.documents.length).length; $('#health').innerHTML=[['Total lessons',lessons.length],['Missing video',missingVideo],['Missing documents',missingDocs],['Knowledge repo',CONFIG.knowledgeRepo||'Not set'],['Media repo',CONFIG.mediaRepo||'Not set']].map(x=>`<div class="health-row"><span>${x[0]}</span><b>${x[1]}</b></div>`).join('');}
 function renderAll(){renderStats();renderFeatured();renderEquipment();renderLibrary();renderPaths();renderHealth(); $('#knowledgeUrl').value=CONFIG.knowledgeRepo||''; $('#mediaUrl').value=CONFIG.mediaRepo||'';}
+function getEquipmentIcons(){try{return JSON.parse(localStorage.getItem('faltah_cms_equipment_icons_preview')||'{}')}catch{return {}}}
+function equipmentIcon(name, cat){const icons=getEquipmentIcons(); return icons[name] || icon(cat)}
 function icon(cat=''){return {'Rotating Equipment':'⚙️','Process Systems':'🏭','Valves':'🚰','Instrumentation':'📈','Electrical':'⚡','Maintenance':'🔧','Fundamentals':'📚'}[cat]||'🎬'}
 function esc(s=''){return String(s).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
 function openPage(id){$$('.page').forEach(p=>p.classList.toggle('active',p.id===id)); $$('.nav').forEach(n=>n.classList.toggle('active',n.dataset.page===id)); $('#pageTitle').textContent = id==='dashboard'?'Dashboard':$('.nav[data-page="'+id+'"]').textContent.trim().replace(/^\S+\s?/,''); window.scrollTo({top:0,behavior:'smooth'});}
@@ -40,7 +46,7 @@ function openLesson(id){const l=lessons.find(x=>x.id===id); if(!l)return; const 
 function openEquipment(name){
   const related = lessons.filter(l => (l.equipment || '').toLowerCase() === String(name).toLowerCase());
   const first = related[0] || {};
-  const cards = related.map(l => `<article class="lesson card" data-lesson="${l.id}"><div class="thumb">${icon(l.category)}</div><span class="meta">${esc(l.category)} • ${esc(l.duration||'')}</span><h4>${esc(l.title)}</h4><p>${esc(l.summary||'')}</p><small>${esc(l.provider||'')}</small></article>`).join('');
+  const cards = related.map(l => `<article class="lesson card" data-lesson="${l.id}"><div class="thumb">${equipmentIcon(l.equipment,l.category)}</div><span class="meta">${esc(l.category)} • ${esc(l.duration||'')}</span><h4>${esc(l.title)}</h4><p>${esc(l.summary||'')}</p><small>${esc(l.provider||'')}</small></article>`).join('');
   $('#dialogContent').innerHTML = `<div class="dialog-inner equipment-detail">
     <span class="meta">${esc(first.category || 'Equipment')}</span>
     <h1>${esc(name)}</h1>

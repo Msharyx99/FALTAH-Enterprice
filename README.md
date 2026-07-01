@@ -1,12 +1,30 @@
-# FALTAH Enterprise — Release 4.0
+# FALTAH Enterprise Release 4.2 — Admin Control Restored
 
-This is the application repository. It connects to:
+This release restores the no-code Admin CMS while keeping the three-repository architecture.
 
-- FALTAH-Knowledge for lessons, videos, PDFs, and equipment.
-- FALTAH-Media for official FALTAH character, logo, and icons.
+## What is included
 
-## Upload to
-`FALTAH-Enterprise`
+- Admin CMS page: `cms.html`
+- Add/edit/delete lessons without editing code
+- Free-text equipment name
+- Equipment icon manager
+- Local preview inside the website
+- Export `lessons.json` for FALTAH-Knowledge
+- Export `equipment-icons.json` for FALTAH-Media
+- Equipment Explorer clickable fix retained
+- MP4 and YouTube popup player retained
+- Smart FALTAH Assistant retained
+- No backend required
 
 ## Important
-Only this repository receives application updates.
+
+This version is no-backend. It saves your changes in the browser for preview and exports JSON files. To publish for everyone, upload exported files manually:
+
+- `lessons.json` → `FALTAH-Knowledge/data/lessons.json`
+- `equipment-icons.json` → `FALTAH-Media/branding/equipment-icons.json` or keep it as your backup file
+
+## Open CMS
+
+From the app, open Admin CMS, or go directly to:
+
+`cms.html`
