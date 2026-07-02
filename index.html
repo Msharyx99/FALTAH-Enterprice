@@ -1,109 +1,18 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#061b30" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-title" content="FALTAH" />
-  <title>FALTAH Enterprise</title>
-  <link rel="manifest" href="manifest.webmanifest" />
-  <link rel="apple-touch-icon" href="assets/icon-192.png" />
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <div id="splash" class="splash">
-    <div class="pulse"><img id="splashLogo" src="assets/icon-192.png" alt="FALTAH"></div>
-    <h1>FALTAH Enterprise</h1>
-    <p>Knowledge That Powers Reliability</p>
-    <div class="bar"><span></span></div>
-  </div>
-
-  <div class="app">
-    <aside class="sidebar">
-      <div class="brand"><img id="brandIcon" src="assets/icon-192.png" alt="FALTAH"><div><b>FALTAH Enterprise</b><small>Digital Technical Academy</small></div></div>
-      <nav>
-        <button class="nav active" data-page="dashboard">🏠 Dashboard</button>
-        <button class="nav" data-page="equipment">⚙ Equipment Explorer</button>
-        <button class="nav" data-page="academy">🎓 Learning Academy</button>
-        <button class="nav" data-page="library">📚 Knowledge Library</button>
-        <button class="nav" data-page="assistant">🤖 Smart Assistant</button>
-        <button class="nav" data-page="admin">🛠 Admin CMS</button>
-        <button class="nav" data-page="settings">⚙ Settings</button>
-      </nav>
-      <div class="side-note">Three repositories connected:<br><b>Enterprise + Knowledge + Media</b></div>
-    </aside>
-
-    <main>
-      <header class="topbar">
-        <div><span class="eyebrow">Enterprise Foundation</span><h2 id="pageTitle">Dashboard</h2></div>
-        <div class="actions"><button id="refreshBtn">↻ Sync Content</button><button id="themeBtn">🌙</button></div>
-      </header>
-
-      <section class="page active" id="dashboard">
-        <div class="hero card">
-          <div>
-            <span class="badge">Release 4.2 • Local CMS Restored</span>
-            <h1>FALTAH Enterprise</h1>
-            <p>The application reads knowledge from <b>FALTAH-Knowledge</b> and branding from <b>FALTAH-Media</b>. Future updates will not overwrite your videos, documents, or character assets.</p>
-            <div class="hero-actions"><button class="primary" data-jump="equipment">Open Equipment Explorer</button><button data-jump="assistant">Ask FALTAH</button></div>
-          </div>
-          <div class="character-wrap"><img id="heroCharacter" src="assets/faltah-main.png" alt="FALTAH character"><div class="fallback">👷‍♂️</div></div>
-        </div>
-        <div class="stats" id="stats"></div>
-        <h3>Featured Lessons</h3><div class="grid" id="featuredGrid"></div>
-      </section>
-
-      <section class="page" id="equipment">
-        <div class="page-head"><div><h1>Equipment Explorer</h1><p>Click any equipment directly. Equipment names are generated from your Knowledge repository content.</p></div><input id="equipmentSearch" placeholder="Search equipment..."></div>
-        <div class="equipment-grid" id="equipmentGrid"></div>
-      </section>
-
-      <section class="page" id="academy">
-        <h1>Learning Academy</h1>
-        <div class="paths" id="paths"></div>
-      </section>
-
-      <section class="page" id="library">
-        <div class="page-head"><div><h1>Knowledge Library</h1><p>Search lessons, equipment, videos, and documents.</p></div><input id="librarySearch" placeholder="Search all knowledge..."></div>
-        <div class="filters" id="filters"></div>
-        <div class="grid" id="libraryGrid"></div>
-      </section>
-
-      <section class="page" id="assistant">
-        <div class="assistant-layout">
-          <div class="card">
-            <h1>Smart FALTAH Assistant</h1>
-            <p>This local assistant searches your Knowledge repository metadata. No API key, no backend, no cost.</p>
-            <textarea id="askInput" placeholder="Ask about pump, control valve, separator, PSV..."></textarea>
-            <button class="primary" id="askBtn">Ask FALTAH</button>
-          </div>
-          <div class="card answer" id="answerBox"><h3>Answer will appear here</h3><p>Try: why pump discharge pressure is low?</p></div>
-        </div>
-      </section>
-
-      <section class="page" id="admin">
-        <h1>Admin CMS</h1>
-        <div class="admin-grid">
-          <div class="card"><h3>Content Health</h3><div id="health"></div></div>
-          <div class="card"><h3>Local No-Code CMS</h3><p>Add/edit equipment, lessons, video links, documents, keywords, and equipment icons from a form. No backend required.</p><p><a href="cms.html"><button class="primary">Open Admin CMS</button></a></p><p><small>CMS changes preview inside this browser. Export <b>lessons.json</b> and upload it to FALTAH-Knowledge when ready.</small></p></div>
-        </div>
-      </section>
-
-      <section class="page" id="settings">
-        <h1>Repository Settings</h1>
-        <div class="card settings-card">
-          <label>Knowledge Repository URL<input id="knowledgeUrl"></label>
-          <label>Media Repository URL<input id="mediaUrl"></label>
-          <button class="primary" id="saveSettings">Save Settings</button>
-          <p>Only change these if repository names or GitHub username change.</p>
-        </div>
-      </section>
-    </main>
-  </div>
-
-  <dialog id="lessonDialog"><button class="close" id="closeDialog">×</button><div id="dialogContent"></div></dialog>
-  <script src="config.js"></script>
-  <script src="app.js"></script>
-</body>
-</html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#07182c"><title>FALTAH Enterprise</title><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="assets/icons/icon.svg"><link rel="apple-touch-icon" href="assets/icons/icon-192.png"><link rel="stylesheet" href="styles.css"></head><body>
+<div id="splash"><div class="mark"><img src="assets/icons/icon.svg" alt=""></div><h1>FALTAH Enterprise</h1><p>Learn • Apply • Excel</p><i></i></div>
+<div class="app">
+<aside><div class="brand"><img id="brandIcon" src="assets/icons/icon.svg"><div><b id="brandName">FALTAH Enterprise</b><span id="brandTag">Learn • Apply • Excel</span></div></div><nav id="nav"></nav><div class="motto" id="footerMotto">Learn • Apply • Excel</div></aside>
+<main><header><div><small>Digital Technical Academy</small><h2 id="pageTitle">Dashboard</h2></div><div class="top"><button id="theme">◐</button><button id="openCms">CMS</button></div></header>
+<section id="dashboard" class="page active"><div class="hero card"><div><span class="pill">Corporate Identity Release 5.0</span><h1>Welcome to FALTAH Enterprise</h1><p>One professional platform for technical learning, equipment knowledge, videos, documents, and Smart FALTAH guidance.</p><div class="actions"><button data-go="equipment">Explore Equipment</button><button data-go="assistant" class="secondary">Ask FALTAH</button></div></div><div class="character"><img id="heroCharacter" src="assets/branding/faltah-character.svg" onerror="this.style.display='none'"><span>👷‍♂️</span></div></div><div class="stats" id="stats"></div><h3>Core Modules</h3><div class="modules" id="modules"></div></section>
+<section id="equipment" class="page"><h1>Equipment Explorer</h1><p class="muted">Click any equipment to open its professional detail template.</p><div class="grid" id="equipmentGrid"></div></section>
+<section id="academy" class="page"><h1>Learning Academy</h1><div class="paths" id="paths"></div></section>
+<section id="library" class="page"><h1>Knowledge Library</h1><label class="search"><span id="searchIcon"></span><input id="search" placeholder="Search equipment, lessons, documents..."></label><div class="grid" id="lessonGrid"></div></section>
+<section id="assistant" class="page"><h1>Smart FALTAH Assistant</h1><div class="assistant card"><div id="chat"><p><b>FALTAH:</b> Ask about pumps, valves, separators, cavitation, PSV, or control valves. I will search the local knowledge base.</p></div><div class="ask"><input id="askInput" placeholder="Example: why pump discharge pressure is low?"><button id="askBtn">Ask</button></div></div></section>
+<section id="challenges" class="page"><h1>Challenges</h1><div class="grid"><div class="card"><h3>Pump Week</h3><p>Answer 5 questions about pump fundamentals.</p><button>Start</button></div><div class="card"><h3>Valve Identification</h3><p>Match valve types with correct applications.</p><button>Start</button></div></div></section>
+<section id="analytics" class="page"><h1>Analytics</h1><div class="stats" id="analyticsStats"></div></section>
+<section id="settings" class="page"><h1>Settings</h1><div class="card"><h3>Branding</h3><p>Use the CMS to change platform name, footer motto, icons, and character.</p><button id="settingsCms">Open CMS</button></div></section>
+</main></div>
+<nav class="bottom" id="bottomNav"></nav>
+<dialog id="equipDialog"><button class="close" onclick="equipDialog.close()">×</button><div id="equipDetail"></div></dialog>
+<dialog id="lessonDialog"><button class="close" onclick="lessonDialog.close()">×</button><div id="lessonDetail"></div></dialog>
+<script src="config.js"></script><script src="app.js"></script></body></html>

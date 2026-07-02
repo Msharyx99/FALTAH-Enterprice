@@ -1,70 +1,64 @@
-const DEFAULT_CONFIG = window.FALTAH_CONFIG || {};
-const localSettings = JSON.parse(localStorage.getItem('faltah_repo_settings') || '{}');
-const CONFIG = { ...DEFAULT_CONFIG, ...localSettings };
-let lessons = [];
-let theme = localStorage.getItem('faltah_theme') || 'dark';
-let currentFilter = 'All';
-let searchText = '';
-const fallbackLessons = [
-  {id:'pump-basics',title:'Centrifugal Pump Fundamentals',equipment:'Centrifugal Pump',category:'Rotating Equipment',summary:'Explains impeller action, volute casing, NPSH, cavitation and minimum flow.',smartAnswer:'Low pump discharge pressure may be caused by low suction pressure, blocked suction strainer, air ingress, worn impeller, wrong rotation, or partially closed valves.',duration:'05:00',provider:'Rotating Equipment SME',videoUrl:'videos/sample-pump.mp4',documents:['documents/sample-pump-sop.pdf'],keywords:['pump','centrifugal','discharge pressure','cavitation','npsh','impeller'],featured:true},
-  {id:'control-valve',title:'Control Valve Basics',equipment:'Control Valve',category:'Valves',summary:'Explains how control valves regulate flow, pressure, level or temperature through actuator movement.',smartAnswer:'Control valves regulate process variables by changing valve opening in response to a controller signal. Common issues include sticking, air supply failure, positioner malfunction, incorrect tuning, and actuator problems.',duration:'04:00',provider:'Instrument SME',videoUrl:'videos/control-valve-basics.mp4',documents:['documents/control-valve-guide.pdf'],keywords:['control valve','positioner','actuator','flow control','valve'],featured:true},
-  {id:'separator',title:'Three Phase Separator',equipment:'Three Phase Separator',category:'Process Systems',summary:'Explains how gas, oil and water separate inside a vessel through gravity and level control.',smartAnswer:'A three-phase separator uses gravity to split gas, oil and water. Stable separation depends on inlet momentum reduction, residence time, interface control, mist extraction, and correct outlet control.',duration:'04:30',provider:'Process SME',videoUrl:'videos/separator.mp4',documents:['documents/separator-overview.pdf'],keywords:['separator','gas','oil','water','interface level'],featured:true}
-];
+const CFG = window.FALTAH_CONFIG || {};
+const defaultKnowledgeBase = CFG.knowledgeBaseUrl || 'https://msharyx99.github.io/FALTAH-Knowledge/';
+const defaultMediaBase = CFG.mediaBaseUrl || 'https://msharyx99.github.io/FALTAH-Media/';
+const localFallbackCharacter = 'assets/branding/faltah-official.jpeg';
+const localFallbackIcon = 'assets/icons/icon.svg';
+function cleanBase(url){ return (url || '').trim().replace(/\/?$/, '/'); }
+function isExternal(url=''){ return /^https?:\/\//i.test(url) || url.startsWith('data:'); }
+function resolveKnowledge(path=''){
+  if(!path) return '';
+  if(isExternal(path)) return path;
+  return cleanBase(store?.settings?.knowledgeBaseUrl || defaultKnowledgeBase) + path.replace(/^\//,'');
+}
+function resolveMedia(path=''){
+  if(!path) return localFallbackCharacter;
+  if(isExternal(path)) return path;
+  return cleanBase(store?.settings?.mediaBaseUrl || defaultMediaBase) + path.replace(/^\//,'');
+}
+function youTubeEmbed(url=''){
+  if(!url) return '';
+  if(url.includes('/embed/')) return url;
+  const watch = url.match(/[?&]v=([^&]+)/);
+  const short = url.match(/youtu\.be\/([^?&]+)/);
+  const id = watch?.[1] || short?.[1];
+  return id ? `https://www.youtube.com/embed/${id}` : url;
+}
+function videoHtml(url){
+  if(!url) return `<div class="videoMissing">No video linked yet. Add a video URL in CMS or upload MP4 to FALTAH-Knowledge.</div>`;
+  const src = youTubeEmbed(resolveKnowledge(url));
+  if(/youtube\.com\/embed/i.test(src)) return `<iframe class="lessonVideo" src="${src}" allowfullscreen></iframe>`;
+  return `<video class="lessonVideo" controls src="${src}">Your browser cannot play this video.</video><p class="muted small">If the video does not play, confirm the MP4 exists in FALTAH-Knowledge at: ${url}</p>`;
+}
+const icons={dashboard:'<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M4 13h7V4H4v9Zm9 7h7v-9h-7v9ZM4 20h7v-5H4v5Zm9-11h7V4h-7v5Z"/></svg>',equipment:'<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z"/><path d="M3 12h3m12 0h3M12 3v3m0 12v3M5.6 5.6l2.1 2.1m8.6 8.6 2.1 2.1m0-12.8-2.1 2.1m-8.6 8.6-2.1 2.1"/></svg>',academy:'<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4H20v15H6.5A2.5 2.5 0 0 1 4 16.5v-10Z"/><path d="M8 8h8M8 12h7"/></svg>',library:'<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M5 4h4v16H5zM10 4h4v16h-4zM16 5l3 14"/></svg>',assistant:'<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M12 3a7 7 0 0 0-7 7v3a5 5 0 0 0 5 5h1l3 3v-3h1a5 5 0 0 0 5-5v-3a7 7 0 0 0-7-7Z"/><path d="M9 10h.01M15 10h.01M9 14h6"/></svg>',challenges:'<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4Z"/><path d="M5 6H3v2a4 4 0 0 0 4 4M19 6h2v2a4 4 0 0 1-4 4"/></svg>',analytics:'<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M4 19V5M4 19h16"/><path d="M8 16V9m4 7V6m4 10v-4"/></svg>',settings:'<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z"/><path d="M4 12h2m12 0h2M12 4v2m0 12v2m-5.7-3.7 1.4-1.4m8.6-8.6 1.4-1.4m0 12.8-1.4-1.4M7.7 7.7 6.3 6.3"/></svg>',search:'<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>'};
+const defaults={brandName:'FALTAH Enterprise',motto:'Learn • Apply • Excel',character:'characters/faltah-main.png',appIcon:'icons/faltah-app-icon.png',icons};
+const saved=JSON.parse(localStorage.getItem('faltah5')||'null');
+let store=saved||{settings:{knowledgeBaseUrl:defaultKnowledgeBase,mediaBaseUrl:defaultMediaBase},brand:defaults,equipment:[{name:'Centrifugal Pump',cat:'Rotating Equipment',icon:icons.equipment,desc:'Converts mechanical energy into hydraulic energy.'},{name:'Control Valve',cat:'Valves',icon:'<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M4 12h16"/><path d="M8 8l8 8M16 8l-8 8"/><circle cx="12" cy="12" r="8"/></svg>',desc:'Regulates flow, pressure, level or temperature using a control signal.'},{name:'Three Phase Separator',cat:'Process Systems',icon:'<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="6" y="5" width="12" height="14" rx="4"/><path d="M8 9h8M8 12h8M8 15h8"/></svg>',desc:'Separates gas, oil and water using gravity and internals.'},{name:'PSV',cat:'Safety Systems',icon:'<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M12 3 3 21h18L12 3Z"/><path d="M12 9v5m0 3h.01"/></svg>',desc:'Protects equipment from overpressure.'}],lessons:[{title:'Pump Fundamentals',eq:'Centrifugal Pump',video:'videos/rotating-equipment/pump-fundamentals.mp4',doc:'documents/rotating-equipment/pump-fundamentals.pdf',summary:'How a centrifugal pump works and common troubleshooting.',keys:'pump,pressure,cavitation,npsh,rotating equipment'},{title:'Control Valve Basics',eq:'Control Valve',video:'videos/valves/control-valve-basics.mp4',doc:'documents/valves/control-valve-basics.pdf',summary:'How control valves regulate process conditions.',keys:'control valve,actuator,positioner'},{title:'Separator Overview',eq:'Three Phase Separator',video:'videos/process/three-phase-separator-overview.mp4',doc:'documents/process/three-phase-separator-overview.pdf',summary:'How gas, oil and water separation works.',keys:'separator,oil,water,gas'}]};
+store.settings ||= {knowledgeBaseUrl:defaultKnowledgeBase,mediaBaseUrl:defaultMediaBase};
+store.brand ||= defaults; store.brand.icons ||= icons;
+const modules=[['dashboard','Dashboard','Executive learning command center.'],['equipment','Equipment Explorer','Open standardized equipment pages.'],['academy','Learning Academy','Structured learning paths.'],['library','Knowledge Library','Search videos, documents and lessons.'],['assistant','Smart Assistant','Local FALTAH knowledge engine.'],['challenges','Challenges','Weekly technical challenges.'],['analytics','Analytics','Content and learning insights.'],['settings','Settings','Branding and platform settings.']];
 const $=(s,r=document)=>r.querySelector(s); const $$=(s,r=document)=>[...r.querySelectorAll(s)];
-function absUrl(repo, path=''){ if(!path) return ''; if(/^https?:\/\//.test(path)) return path; return (repo||'').replace(/\/?$/,'/') + path.replace(/^\//,''); }
-function isYouTube(url=''){return /youtu\.be|youtube\.com/.test(url)}
-function youtubeEmbed(url){let id=''; try{const u=new URL(url); if(u.hostname.includes('youtu.be')) id=u.pathname.slice(1); else id=u.searchParams.get('v') || u.pathname.split('/embed/')[1] || '';}catch{} return id?`https://www.youtube.com/embed/${id}`:url;}
-async function loadLessons(){
-  const localCms = localStorage.getItem('faltah_cms_lessons_preview');
-  if(localCms){
-    try{ lessons = JSON.parse(localCms); renderAll(); return; }catch(e){}
-  }
-  try{const dataUrl=absUrl(CONFIG.knowledgeRepo, CONFIG.knowledgeDataFile || 'data/lessons.json') + '?v=' + Date.now(); const res=await fetch(dataUrl); if(!res.ok) throw new Error('No knowledge data'); lessons = await res.json();}
-  catch(e){lessons = fallbackLessons;}
-  renderAll();
+function save(){localStorage.setItem('faltah5',JSON.stringify(store))}
+function navBtn(m){return `<button class="navBtn" data-page="${m[0]}"><span class="navIcon">${store.brand.icons[m[0]]||icons[m[0]]||''}</span><b>${m[1]}</b></button>`}
+function iconMarkup(value){ if(!value) return icons.equipment; if(isExternal(value)) return `<img class="inlineIcon" src="${value}">`; return value; }
+function render(){
+  brandName.textContent=store.brand.brandName; brandTag.textContent=store.brand.motto; footerMotto.textContent=store.brand.motto;
+  brandIcon.src=resolveMedia(store.brand.appIcon||defaults.appIcon); brandIcon.onerror=()=>{brandIcon.src=localFallbackIcon};
+  heroCharacter.src=resolveMedia(store.brand.character||defaults.character); heroCharacter.onerror=()=>{heroCharacter.src=localFallbackCharacter};
+  nav.innerHTML=modules.map(navBtn).join(''); bottomNav.innerHTML=modules.slice(0,4).map(navBtn).join(''); modulesEl(); stats();
+  equipmentGrid.innerHTML=store.equipment.map(e=>`<div class="card click" data-eq="${e.name}"><span class="eqIcon">${iconMarkup(e.icon)}</span><h3>${e.name}</h3><p class="muted">${e.desc}</p><small>${e.cat}</small></div>`).join('');
+  lessonGrid.innerHTML=lessonsFiltered().map(l=>`<div class="card click" data-lesson="${l.title}"><div class="lessonThumb">▶</div><h3>${l.title}</h3><p class="muted">${l.summary}</p><small>${l.eq}</small></div>`).join('');
+  paths.innerHTML=['New Operator','Rotating Equipment','Valves Specialist','Process Fundamentals'].map((p,i)=>`<div class="path"><h3>${p}</h3><div class="progress"><span style="width:${(i+1)*20}%"></span></div><p>${(i+1)*20}% complete</p></div>`).join('');
+  analyticsStats.innerHTML=statHtml(); searchIcon.innerHTML=store.brand.icons.search||icons.search; bind();
 }
-function applyBranding(){
-  const icon192=absUrl(CONFIG.mediaRepo, CONFIG.appIcon192 || 'icons/icon-192.png'); const icon512=absUrl(CONFIG.mediaRepo, CONFIG.appIcon512 || 'icons/icon-512.png'); const char=absUrl(CONFIG.mediaRepo, CONFIG.officialCharacter || 'characters/faltah-main.png');
-  if(icon192){ $('#brandIcon').src=icon192; $('#splashLogo').src=icon192; document.querySelector('link[rel="apple-touch-icon"]').href=icon192; }
-  if(char){ $('#heroCharacter').src=char; }
-}
-function renderStats(){const eq=[...new Set(lessons.map(l=>l.equipment).filter(Boolean))]; const docs=lessons.reduce((a,l)=>a+(l.documents?.length||0),0); $('#stats').innerHTML=[['Equipment',eq.length],['Lessons',lessons.length],['Videos',lessons.filter(l=>l.videoUrl).length],['Documents',docs]].map(x=>`<div class="stat card"><b>${x[1]}</b><span>${x[0]}</span></div>`).join('');}
-function lessonCard(l){return `<article class="lesson card" data-lesson="${l.id}"><div class="thumb">${equipmentIcon(l.equipment,l.category)}</div><span class="meta">${l.category} • ${l.duration||''}</span><h4>${esc(l.title)}</h4><p>${esc(l.summary||'')}</p><small>${esc(l.equipment||'')}</small></article>`}
-function renderFeatured(){ $('#featuredGrid').innerHTML = lessons.filter(l=>l.featured).slice(0,4).map(lessonCard).join('') || lessons.slice(0,4).map(lessonCard).join(''); }
-function renderEquipment(){ const q=($('#equipmentSearch')?.value||'').toLowerCase(); const eqMap={}; lessons.forEach(l=>{ if(!l.equipment) return; if(!eqMap[l.equipment]) eqMap[l.equipment]={name:l.equipment,category:l.category,count:0,summary:l.summary}; eqMap[l.equipment].count++;}); let arr=Object.values(eqMap).filter(e=>e.name.toLowerCase().includes(q) || e.category.toLowerCase().includes(q)); $('#equipmentGrid').innerHTML=arr.map(e=>`<article class="equipment card" data-equipment="${esc(e.name)}"><div class="equip-icon">${equipmentIcon(e.name,e.category)}</div><span class="meta">${esc(e.category)} • ${e.count} lessons</span><h4>${esc(e.name)}</h4><p>${esc(e.summary||'Open equipment details and related lessons.')}</p></article>`).join('');}
-function renderLibrary(){ const cats=['All',...new Set(lessons.map(l=>l.category))]; $('#filters').innerHTML=cats.map(c=>`<button class="filter ${c===currentFilter?'active':''}" data-filter="${esc(c)}">${esc(c)}</button>`).join(''); const q=($('#librarySearch')?.value||searchText).toLowerCase(); let arr=lessons.filter(l=>(currentFilter==='All'||l.category===currentFilter) && [l.title,l.equipment,l.category,l.summary,l.provider,(l.keywords||[]).join(' ')].join(' ').toLowerCase().includes(q)); $('#libraryGrid').innerHTML=arr.map(lessonCard).join('') || '<div class="card" style="padding:20px">No results found.</div>';}
-function renderPaths(){ const paths=[['Operator Fundamentals',35],['Rotating Equipment',20],['Valves & Instrumentation',15],['Process Systems',28]]; $('#paths').innerHTML=paths.map(p=>`<div class="path card"><h3>${p[0]}</h3><p>Structured lessons from the knowledge repository.</p><div class="progress"><span style="width:${p[1]}%"></span></div></div>`).join('');}
-function renderHealth(){ const missingVideo=lessons.filter(l=>!l.videoUrl).length; const missingDocs=lessons.filter(l=>!l.documents||!l.documents.length).length; $('#health').innerHTML=[['Total lessons',lessons.length],['Missing video',missingVideo],['Missing documents',missingDocs],['Knowledge repo',CONFIG.knowledgeRepo||'Not set'],['Media repo',CONFIG.mediaRepo||'Not set']].map(x=>`<div class="health-row"><span>${x[0]}</span><b>${x[1]}</b></div>`).join('');}
-function renderAll(){renderStats();renderFeatured();renderEquipment();renderLibrary();renderPaths();renderHealth(); $('#knowledgeUrl').value=CONFIG.knowledgeRepo||''; $('#mediaUrl').value=CONFIG.mediaRepo||'';}
-function getEquipmentIcons(){try{return JSON.parse(localStorage.getItem('faltah_cms_equipment_icons_preview')||'{}')}catch{return {}}}
-function equipmentIcon(name, cat){const icons=getEquipmentIcons(); return icons[name] || icon(cat)}
-function icon(cat=''){return {'Rotating Equipment':'⚙️','Process Systems':'🏭','Valves':'🚰','Instrumentation':'📈','Electrical':'⚡','Maintenance':'🔧','Fundamentals':'📚'}[cat]||'🎬'}
-function esc(s=''){return String(s).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
-function openPage(id){$$('.page').forEach(p=>p.classList.toggle('active',p.id===id)); $$('.nav').forEach(n=>n.classList.toggle('active',n.dataset.page===id)); $('#pageTitle').textContent = id==='dashboard'?'Dashboard':$('.nav[data-page="'+id+'"]').textContent.trim().replace(/^\S+\s?/,''); window.scrollTo({top:0,behavior:'smooth'});}
-function openLesson(id){const l=lessons.find(x=>x.id===id); if(!l)return; const video=absUrl(CONFIG.knowledgeRepo,l.videoUrl||''); const docs=(l.documents||[]).map(d=>`<a class="doc-link" target="_blank" href="${absUrl(CONFIG.knowledgeRepo,d)}">📄 ${esc(d.split('/').pop())}</a>`).join(''); let player='<div class="video-box">No video added yet</div>'; if(video){ player = isYouTube(video)?`<div class="video-box"><iframe src="${youtubeEmbed(video)}" allowfullscreen></iframe></div>`:`<div class="video-box"><video controls playsinline src="${video}"></video></div>`; } $('#dialogContent').innerHTML=`<div class="dialog-inner"><span class="meta">${esc(l.category)} • ${esc(l.equipment||'')}</span><h1>${esc(l.title)}</h1><p>${esc(l.summary||'')}</p>${player}<h3>Smart Answer</h3><p>${esc(l.smartAnswer||'No smart answer available yet.')}</p><h3>Documents</h3>${docs||'<p>No documents added yet.</p>'}</div>`; $('#lessonDialog').showModal();}
-
-function openEquipment(name){
-  const related = lessons.filter(l => (l.equipment || '').toLowerCase() === String(name).toLowerCase());
-  const first = related[0] || {};
-  const cards = related.map(l => `<article class="lesson card" data-lesson="${l.id}"><div class="thumb">${equipmentIcon(l.equipment,l.category)}</div><span class="meta">${esc(l.category)} • ${esc(l.duration||'')}</span><h4>${esc(l.title)}</h4><p>${esc(l.summary||'')}</p><small>${esc(l.provider||'')}</small></article>`).join('');
-  $('#dialogContent').innerHTML = `<div class="dialog-inner equipment-detail">
-    <span class="meta">${esc(first.category || 'Equipment')}</span>
-    <h1>${esc(name)}</h1>
-    <p>${esc(first.summary || 'Equipment details and related knowledge lessons will appear here.')}</p>
-    <div class="equipment-sections">
-      <div><b>Overview</b><span>Purpose, function, and operating concept.</span></div>
-      <div><b>How It Works</b><span>Working principle and process role.</span></div>
-      <div><b>Components</b><span>Main parts, instruments, and controls.</span></div>
-      <div><b>Troubleshooting</b><span>Common issues, causes, and checks.</span></div>
-      <div><b>Knowledge Films</b><span>Videos linked to this equipment.</span></div>
-      <div><b>Documents</b><span>Procedures, manuals, and references.</span></div>
-    </div>
-    <h3>Related Lessons</h3>
-    <div class="grid">${cards || '<div class="card" style="padding:18px">No related lessons yet.</div>'}</div>
-  </div>`;
-  $('#lessonDialog').showModal();
-}
-function smartAnswer(q){q=q.toLowerCase(); const scored=lessons.map(l=>{const text=[l.title,l.equipment,l.category,l.summary,l.smartAnswer,(l.keywords||[]).join(' ')].join(' ').toLowerCase(); const score=q.split(/\s+/).filter(w=>w.length>2 && text.includes(w)).length + (text.includes(q)?5:0); return {l,score};}).sort((a,b)=>b.score-a.score); const best=scored[0]; if(!best||best.score===0) return `<h3>No knowledge available yet</h3><p>I could not find a matching topic in the current knowledge repository. Add keywords and a smart answer in <b>FALTAH-Knowledge/data/lessons.json</b>.</p>`; return `<h3>${esc(best.l.title)}</h3><p>${esc(best.l.smartAnswer||best.l.summary)}</p><p><b>Related equipment:</b> ${esc(best.l.equipment||'')}</p><button data-lesson="${best.l.id}" class="primary">Open Lesson</button>`;}
-document.addEventListener('click',e=>{const nav=e.target.closest('[data-page]'); if(nav) openPage(nav.dataset.page); const jump=e.target.closest('[data-jump]'); if(jump) openPage(jump.dataset.jump); const eq=e.target.closest('[data-equipment]'); if(eq){ openEquipment(eq.dataset.equipment); return; } const lesson=e.target.closest('[data-lesson]'); if(lesson) openLesson(lesson.dataset.lesson); const fil=e.target.closest('[data-filter]'); if(fil){currentFilter=fil.dataset.filter; renderLibrary();}});
-$('#closeDialog').onclick=()=>$('#lessonDialog').close(); $('#equipmentSearch').oninput=renderEquipment; $('#librarySearch').oninput=renderLibrary; $('#refreshBtn').onclick=loadLessons; $('#askBtn').onclick=()=>{$('#answerBox').innerHTML=smartAnswer($('#askInput').value);}; $('#themeBtn').onclick=()=>{theme=theme==='dark'?'light':'dark';localStorage.setItem('faltah_theme',theme);document.body.classList.toggle('light',theme==='light');}; $('#saveSettings').onclick=()=>{localStorage.setItem('faltah_repo_settings',JSON.stringify({knowledgeRepo:$('#knowledgeUrl').value,mediaRepo:$('#mediaUrl').value}));alert('Saved. Refreshing...');location.reload();};
-window.addEventListener('load',()=>{document.body.classList.toggle('light',theme==='light'); applyBranding(); loadLessons(); setTimeout(()=>$('#splash').classList.add('hide'),800); if('serviceWorker'in navigator) navigator.serviceWorker.register('./service-worker.js').catch(()=>{});});
+function modulesEl(){modules.innerHTML=modules.slice(1,8).map(m=>`<div class="module" data-page="${m[0]}"><span class="moduleIcon">${store.brand.icons[m[0]]||icons[m[0]]}</span><h3>${m[1]}</h3><p>${m[2]}</p></div>`).join('')}
+function statHtml(){return `<div class="metric"><b>${store.equipment.length}</b><span>Equipment</span></div><div class="metric"><b>${store.lessons.length}</b><span>Lessons</span></div><div class="metric"><b>${store.lessons.filter(l=>l.video).length}</b><span>Videos</span></div><div class="metric"><b>${store.lessons.filter(l=>l.doc).length}</b><span>Documents</span></div>`}
+function stats(){document.getElementById('stats').innerHTML=statHtml()}
+function lessonsFiltered(){let q=($('#search')?.value||'').toLowerCase();return store.lessons.filter(l=>(l.title+l.eq+l.summary+l.keys).toLowerCase().includes(q))}
+function bind(){$$('[data-page]').forEach(b=>b.onclick=()=>openPage(b.dataset.page));$$('[data-eq]').forEach(b=>b.onclick=()=>openEq(b.dataset.eq));$$('[data-lesson]').forEach(b=>b.onclick=()=>openLesson(b.dataset.lesson))}
+function openPage(p){$$('.page').forEach(x=>x.classList.toggle('active',x.id==p));$$('.navBtn').forEach(x=>x.classList.toggle('active',x.dataset.page==p));pageTitle.textContent=modules.find(m=>m[0]==p)?.[1]||'Dashboard';scrollTo(0,0)}
+function openEq(name){let e=store.equipment.find(x=>x.name==name);let related=store.lessons.filter(l=>l.eq==name);equipDetail.innerHTML=`<h1><span class="eqIcon large">${iconMarkup(e.icon)}</span> ${e.name}</h1><p>${e.desc}</p><div class="detailGrid">${['Overview','Purpose','Working Principle','Components','Operating Parameters','Common Alarms','Failure Modes','Troubleshooting','Maintenance','Inspection','Knowledge Films','Documents'].map(x=>`<div class="detailBox"><b>${x}</b><p class="muted">Ready for ${e.name} content.</p></div>`).join('')}</div><h3>Related Lessons</h3>${related.map(l=>`<p class="click" data-lesson="${l.title}">▶ ${l.title}</p>`).join('')||'<p>No lessons yet.</p>'}`;equipDialog.showModal();bind()}
+function openLesson(title){let l=store.lessons.find(x=>x.title==title);lessonDetail.innerHTML=`<h1>${l.title}</h1><p>${l.summary}</p><div class="detailBox">${videoHtml(l.video)}</div><p><b>Equipment:</b> ${l.eq}</p><p><b>Document:</b> ${l.doc?`<a href="${resolveKnowledge(l.doc)}" target="_blank">Open Document</a>`:'No document'}</p>`;lessonDialog.showModal()}
+theme.onclick=()=>{document.body.classList.toggle('light');localStorage.setItem('theme',document.body.classList.contains('light')?'light':'dark')};
+openCms.onclick=settingsCms.onclick=()=>location.href='cms.html'; search.oninput=render;
+askBtn.onclick=()=>{let q=askInput.value.toLowerCase();let hits=store.lessons.filter(l=>(l.title+l.eq+l.summary+l.keys).toLowerCase().includes(q)).slice(0,3);chat.innerHTML+=`<p><b>You:</b> ${askInput.value}</p><p><b>FALTAH:</b> ${hits.length?'I found related knowledge: '+hits.map(h=>h.title+' ('+h.eq+')').join(', '):'No knowledge available yet. Add this topic in the CMS.'}</p>`;askInput.value=''};
+if(localStorage.getItem('theme')=='light')document.body.classList.add('light'); setTimeout(()=>splash.classList.add('hide'),800); render(); openPage('dashboard');
